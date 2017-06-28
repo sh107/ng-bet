@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FileService} from '../service/file.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-table',
@@ -11,7 +12,7 @@ export class TableComponent implements OnInit {
   isShown = false;
   data;
   raw;
-  back;
+  back = [];
   lay;
   tableX;
   tableY;
@@ -40,7 +41,10 @@ export class TableComponent implements OnInit {
     }
   };
 
-  
+  betfairImage = '/assets/img/betfair.jpg';
+  betdaqImage = '/assets/img/betdaq.png';
+  smarketsImage = '/assets/img/smarkets.jpg';
+
   constructor(private fService: FileService) {
 
     fService.getJSON().subscribe(
@@ -65,7 +69,7 @@ export class TableComponent implements OnInit {
 
   extractRawData() {
 
-    this.data = this.raw;
+    this.data = _.cloneDeep(this.raw);
     this.raw.forEach((team, index) => {
 
       const sortedBack = team.back.sort((obj1, obj2) => {
@@ -88,21 +92,40 @@ export class TableComponent implements OnInit {
         return 0;
       });
 
-      this.data[index].bestBack = sortedBack[0].odd + ' ' + sortedBack[0].name;
-      this.data[index].bestLay = sortedLay[0].odd + ' ' + sortedLay[0].name;
+      this.data[index].bestBack = sortedBack[0].odd + ' <br> <img src="' + this.getExchangeLogo(sortedBack[0].name) + '" class="logo" />';
+      this.data[index].bestLay = sortedLay[0].odd + ' <br> <img src="' + this.getExchangeLogo(sortedLay[0].name) + '" class="logo" />';
+
+      if (sortedBack[0].odd === '') {
+        this.data[index].bestBack = 'n/a';
+      }
+      if (sortedLay[0].odd === '') {
+        this.data[index].bestLay = 'n/a';
+      }
+
     });
 
   }
 
-  onMouseOver(event): void {
+  getExchangeLogo(name) {
 
+    switch (name) {
+      case 'Betfair':
+        return this.betfairImage;
+      case 'Betdaq':
+        return this.betdaqImage;
+      case 'Smarkets':
+        return this.smarketsImage;
+    }
+  }
+
+  onMouseOver(event): void {
     this.back = event.data.back;
     this.lay = event.data.lay;
+    this.isShown = true;
   }
 
   onMouseEnter(event): void {
-    this.isShown = true;
-    this.tableX = event.clientX;
+    this.tableX = event.clientX - 35;
     this.tableY = event.clientY;
   }
   onMouseLeave(event): void {

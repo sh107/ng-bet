@@ -7,6 +7,6 @@ export class FileService {
   constructor(private http: Http) { }
 
   public getJSON() {
-    return this.http.get('/assets/data.json').map((res: any) => res.json());
+    return this.http.get('/assets/data/data.json').map((res: any) => res.json());
   }
 }

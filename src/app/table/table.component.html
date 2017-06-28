@@ -1,29 +1,29 @@
 <div class="container">
   <ng2-smart-table [settings]="settings" [source]="data" (mouseleave)="onMouseLeave($event)" (mouseover)="onMouseEnter($event)" (rowHover)="onMouseOver($event)"></ng2-smart-table>
 
-  <table class="table" *ngIf="isShown" style="position: absolute;" [ngStyle]="{'left': tableX+'px', 'top': tableY+'px'}" >
+  <table class="table" *ngIf="isShown" [ngStyle]="{'left': tableX+'px', 'top': tableY+'px'}" >
     <thead>
     <tr>
-      <th>Exchange</th>
+      <th>Betting Exchange</th>
       <th>Back Odd</th>
       <th>Lay Odd</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-      <td>{{ back[0].name }}</td>
-      <td>{{ back[0].odd }}</td>
-      <td>{{ lay[0].odd }}</td>
+      <td><img src="{{ getExchangeLogo(back[0]?.name) }}" class="logo"/></td>
+      <td>{{ back[0]?.odd }}</td>
+      <td>{{ lay[0]?.odd }}</td>
     </tr>
     <tr>
-      <td>{{ back[1].name }}</td>
-      <td>{{ back[1].odd }}</td>
-      <td>{{ lay[1].odd }}</td>
+      <td><img src="{{ getExchangeLogo(back[1]?.name) }}" class="logo"/></td>
+      <td>{{ back[1]?.odd }}</td>
+      <td>{{ lay[1]?.odd }}</td>
     </tr>
     <tr>
-      <td>{{ back[2].name }}</td>
-      <td>{{ back[2].odd }}</td>
-      <td>{{ lay[2].odd }}</td>
+      <td><img src="{{ getExchangeLogo(back[2]?.name) }}" class="logo"/></td>
+      <td>{{ back[2]?.odd }}</td>
+      <td>{{ lay[2]?.odd }}</td>
     </tr>
   </table>
 </div>
